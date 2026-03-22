@@ -1,9 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+export const viewport: Viewport = {
+  themeColor: "#0a0b0f",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "DLX Portfolio Dashboard",
-  description: "SmartFolio local investment dashboard running on DLX-OS V5.",
+  title: "DLX OS V5 | Mission Control",
+  description: "Dunker's Primary Engineering & Operating Dashboard.",
   alternates: {
     canonical: "/",
   },
