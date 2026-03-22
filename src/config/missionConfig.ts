@@ -24,7 +24,7 @@ export const missionCategories = [
     badge: "Agents",
     color: "purple",
     links: [
-      { name: "Lux", desc: "Main Thinking Partner", path: "#", status: "agent" },
+      { name: "Lux", desc: "Main Thinking Partner", path: "/lux", status: "agent" },
       { name: "Newsician", desc: "Edgy/Political Artist", path: "/artists/newsician", status: "agent" },
       { name: "QPL", desc: "Mellow/Political Artist", path: "/artists/qpl", status: "agent" },
       { name: "Mic", desc: "Single Studio Producer", path: "/artists/mic", status: "agent" },
