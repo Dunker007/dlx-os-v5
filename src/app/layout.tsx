@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   },
 };
 
+import LuxChat from "../components/LuxChat";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,7 +22,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <LuxChat />
+      </body>
     </html>
   );
 }
