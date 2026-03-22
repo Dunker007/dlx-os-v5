@@ -2,10 +2,12 @@
 
 import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import dynamic from "next/dynamic";
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { agentRegistry } from '../config/agentRegistry';
+
+const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+const SyntaxHighlighter = dynamic(() => import('react-syntax-highlighter').then(mod => mod.Prism as any), { ssr: false });
 
 // We default to "lux" so existing <LuxChat /> layouts continue to work natively
 export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullMode?: boolean; agentId?: string }) {

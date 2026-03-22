@@ -11,13 +11,14 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "DLX OS V5 | Mission Control",
   description: "Dunker's Primary Engineering & Operating Dashboard.",
-  alternates: {
-    canonical: "/",
-  },
+  robots: { index: false, follow: false },
 };
 
-import LuxChat from "../components/LuxChat";
+import dynamic from "next/dynamic";
 import Navbar from "../components/Navbar";
+
+// Dynamically import LuxChat to prevent react-syntax-highlighter from blocking the main thread on load
+const LuxChatDynamic = dynamic(() => import("../components/LuxChat"), { ssr: false });
 
 export default function RootLayout({
   children,
@@ -33,7 +34,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         {children}
-        <LuxChat />
+        <LuxChatDynamic />
       </body>
     </html>
   );
