@@ -9,9 +9,9 @@ const LuxChat = dynamic(() => import("../components/LuxChat"), { ssr: false });
 export default function Desktop() {
   return (
     <div style={{
-      height: "100vh", width: "100vw", overflow: "hidden", padding: "40px",
-      display: "flex", gap: "32px",
-      position: "fixed", top: 0, left: 0
+      minHeight: "calc(100vh - 73px)", width: "100%", padding: "40px",
+      display: "flex", gap: "32px", justifyContent: "center", alignItems: "flex-start",
+      position: "relative", overflowY: "auto", overflowX: "hidden"
     }}>
       {/* Purple & Teal Flood Light Atmosphere */}
       <div style={{
@@ -70,7 +70,7 @@ export default function Desktop() {
       </div>
 
       {/* CENTER: Lux Agent Window */}
-      <div style={{ flex: 1, minWidth: "400px", maxWidth: "450px", zIndex: 10, display: "flex", flexDirection: "column", paddingBottom: "40px" }}>
+      <div style={{ flex: 1, minWidth: "400px", maxWidth: "450px", height: "calc(100vh - 153px)", zIndex: 10, display: "flex", flexDirection: "column" }}>
         <LuxChat fullMode={true} />
       </div>
 
