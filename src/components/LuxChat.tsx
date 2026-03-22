@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 import ReactMarkdown from 'react-markdown';
 
 export default function LuxChat({ fullMode = false }: { fullMode?: boolean }) {
+  const pathname = usePathname();
   const [messages, setMessages] = useState<{ role: "user" | "lux"; content: string }[]>([
     { role: "lux", content: "Lux OS V5 initialized. Dashboard is locked and loaded. What's the play, Dunker?" }
   ]);
@@ -158,6 +160,11 @@ export default function LuxChat({ fullMode = false }: { fullMode?: boolean }) {
 
   if (fullMode) {
     return renderChatBox();
+  }
+
+  // Prevent duplicate floating widget on the root Welcome page
+  if (pathname === "/") {
+    return null;
   }
 
   return (
