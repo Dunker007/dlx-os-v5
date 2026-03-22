@@ -22,7 +22,7 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
 
   // Hydrate exact agent memory from Local Storage
   useEffect(() => {
@@ -45,7 +45,12 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
   }, [messages, isMounted, memoryKey]);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTo({
+        top: chatScrollRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   }, [messages, isOpen, fullMode]);
 
   const clearMemory = () => {
@@ -127,7 +132,7 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
         </div>
       </div>
 
-      <div style={{
+      <div ref={chatScrollRef} style={{
         padding: "16px", overflowY: "auto", flex: 1,
         display: "flex", flexDirection: "column", gap: "12px",
         height: fullMode ? "100%" : "400px"
@@ -175,7 +180,6 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
           </div>
         ))}
         {isLoading && <div style={{ alignSelf: "flex-start", fontSize: "12px", color: "var(--text-muted)" }}>{agent.name} is parsing...</div>}
-        <div ref={endRef} />
       </div>
 
       <div style={{ padding: "12px", borderTop: `1px solid ${agent.themeColor}33`, background: "rgba(0,0,0,0.2)", display: "flex", gap: "8px" }}>
