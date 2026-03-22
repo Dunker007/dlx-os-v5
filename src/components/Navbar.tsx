@@ -6,14 +6,13 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const pathname = usePathname();
 
-  // Don't render the global navbar on the root redirect or specific landing pages if needed
-  if (pathname === "/") return null;
+  // The Navbar will now render on all pages including the root landing screen
 
   return (
     <header className="header" style={{
       display: "flex", alignItems: "center", justifyContent: "space-between",
       padding: "16px 28px", borderBottom: "1px solid var(--border)",
-      background: "var(--bg-surface)", position: "sticky", top: 0, zIndex: 100,
+      background: "rgba(17, 19, 24, 0.7)", position: "sticky", top: 0, zIndex: 100,
       backdropFilter: "blur(12px)"
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
