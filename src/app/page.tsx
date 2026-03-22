@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
 
 // Dynamically import LuxChat to prevent react-syntax-highlighter from breaking the build
 const LuxChat = dynamic(() => import("../components/LuxChat"), { ssr: false });
@@ -14,20 +13,19 @@ export default function Desktop() {
       display: "flex", gap: "32px",
       position: "fixed", top: 0, left: 0
     }}>
-      <Image
-        src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&w=2500&auto=format&fit=crop"
-        alt="Mission Control OS Background"
-        fill
-        priority
-        quality={80}
-        style={{ objectFit: "cover", zIndex: -1 }}
-      />
-      {/* Gradient Overlay for legibility */}
+      {/* Purple & Teal Flood Light Atmosphere */}
       <div style={{
-        position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
-        background: "linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 100%)",
-        pointerEvents: "none", zIndex: 1
-      }}></div>
+        position: "absolute", top: "-20%", left: "-10%",
+        width: "70vw", height: "70vw",
+        background: "radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%)",
+        filter: "blur(60px)", zIndex: -1, pointerEvents: "none"
+      }} />
+      <div style={{
+        position: "absolute", bottom: "-20%", right: "-10%",
+        width: "70vw", height: "70vw",
+        background: "radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 60%)",
+        filter: "blur(60px)", zIndex: -1, pointerEvents: "none"
+      }} />
 
       {/* LEFT COLUMN: GDrive & Mission Control */}
       <div style={{ display: "flex", flexDirection: "column", gap: "24px", width: "320px", zIndex: 10 }}>
