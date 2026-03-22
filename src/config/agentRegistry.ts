@@ -1,4 +1,105 @@
-export type AgentConfig = {
+3:19:19 PM: build-image version: c2b8ae031d22ab4c62dd61deb4eac30945db824f (noble-new-builds)
+3:19:19 PM: buildbot version: 80dfe36208af12a46422917c4b93b0cb7f340032
+3:19:19 PM: Building with cache
+3:19:19 PM: Starting to prepare the repo for build
+3:19:19 PM: Preparing Git Reference refs/heads/main
+3:19:20 PM: Installing dependencies
+3:19:20 PM: mise ~/.config/mise/config.toml tools: python@3.14.3
+3:19:20 PM: mise ~/.config/mise/config.toml tools: ruby@3.4.8
+3:19:21 PM: mise ~/.config/mise/config.toml tools: go@1.26.1
+3:19:21 PM: v22.22.1 is already installed.
+3:19:21 PM: Now using node v22.22.1 (npm v10.9.4)
+3:19:21 PM: Enabling Node.js Corepack
+3:19:21 PM: No npm workspaces detected
+3:19:21 PM: Installing npm packages using npm version 10.9.4
+3:19:22 PM: up to date in 616ms
+3:19:22 PM: npm packages installed
+3:19:22 PM: Successfully installed dependencies
+3:19:22 PM: Detected 1 framework(s)
+3:19:22 PM: "next" at version "16.2.1"
+3:19:23 PM: Starting build script
+3:19:27 PM: Section completed: initializing
+3:19:28 PM: ​
+3:19:28 PM: Netlify Build                                                 
+3:19:28 PM: ────────────────────────────────────────────────────────────────
+3:19:28 PM: ​
+3:19:28 PM: ❯ Version
+3:19:28 PM:   @netlify/build 35.10.1
+3:19:28 PM: ​
+3:19:28 PM: ❯ Flags
+3:19:28 PM:   accountId: 6903c3556933d258c03810e1
+3:19:28 PM:   baseRelDir: true
+3:19:28 PM:   buildId: 69c04ec66664b30008ea47f8
+3:19:28 PM:   deployId: 69c04ec66664b30008ea47fa
+3:19:28 PM: ​
+3:19:28 PM: ❯ Current directory
+3:19:28 PM:   /opt/build/repo
+3:19:28 PM: ​
+3:19:28 PM: ❯ Config file
+3:19:28 PM:   /opt/build/repo/netlify.toml
+3:19:28 PM: ​
+3:19:28 PM: ❯ Context
+3:19:28 PM:   production
+3:19:28 PM: ​
+3:19:28 PM: ❯ Using Next.js Runtime - v5.15.9
+3:19:28 PM: ​
+3:19:28 PM: ❯ Loading plugins
+3:19:28 PM:    - @netlify/plugin-lighthouse@6.0.1 from Netlify app
+3:19:30 PM: Next.js cache restored
+3:19:30 PM: ​
+3:19:30 PM: build.command from netlify.toml                               
+3:19:30 PM: ────────────────────────────────────────────────────────────────
+3:19:30 PM: ​
+3:19:30 PM: $ npm run build
+3:19:30 PM: > dlx-os-v5@0.1.0 build
+3:19:30 PM: > next build
+3:19:31 PM: ▲ Next.js 16.2.1 (Turbopack)
+3:19:31 PM:   Creating an optimized production build ...
+3:19:36 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+3:19:36 PM: > Build error occurred
+3:19:36 PM: Error: Turbopack build failed with 1 errors:
+3:19:36 PM: ./src/app/layout.tsx:21:24
+3:19:36 PM: `ssr: false` is not allowed with `next/dynamic` in Server Components. Please move it into a Client Component.
+3:19:36 PM:   19 | ...
+3:19:36 PM:   20 | ...lly import LuxChat to prevent react-syntax-highlighter from blocking the main thread on...
+3:19:36 PM: > 21 | ...atDynamic = dynamic(() => import("../components/LuxChat"), { ssr: false });
+3:19:36 PM:      |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3:19:36 PM:   22 | ...
+3:19:36 PM:   23 | ...ult function RootLayout({
+3:19:36 PM:   24 | ...
+3:19:36 PM: Ecmascript file had an error
+3:19:36 PM:     at <unknown> (./src/app/layout.tsx:21:24)
+3:19:36 PM: ​
+3:19:36 PM: "build.command" failed                                        
+3:19:36 PM: ────────────────────────────────────────────────────────────────
+3:19:36 PM: ​
+3:19:36 PM:   Error message
+3:19:36 PM:   Command failed with exit code 1: npm run build (https://ntl.fyi/exit-code-1)
+3:19:36 PM: ​
+3:19:36 PM:   Error location
+3:19:36 PM:   In build.command from netlify.toml:
+3:19:36 PM:   npm run build
+3:19:36 PM: ​
+3:19:36 PM:   Resolved config
+3:19:36 PM:   build:
+3:19:36 PM:     command: npm run build
+3:19:36 PM:     commandOrigin: config
+3:19:36 PM:     environment:
+3:19:36 PM:       - Gemini_Key
+3:19:36 PM:       - LUX_GEMINI_API_KEY
+3:19:36 PM:       - NEXT_PRIVATE_LOCAL_WEBPACK
+3:19:36 PM:     publish: /opt/build/repo/.next
+3:19:36 PM:     publishOrigin: config
+3:19:36 PM:   plugins:
+3:19:36 PM:     - inputs: {}
+3:19:36 PM:       origin: config
+3:19:36 PM:       package: "@netlify/plugin-nextjs"
+3:19:36 PM:     - inputs: {}
+3:19:36 PM:       origin: ui
+3:19:36 PM:       package: "@netlify/plugin-lighthouse"
+3:19:36 PM: Build failed due to a user error: Build script returned non-zero exit code: 2
+3:19:36 PM: Failing build: Failed to build site
+3:19:37 PM: Finished processing build request in 17.753sexport type AgentConfig = {
   id: string;
   name: string;
   role: string;

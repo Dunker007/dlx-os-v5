@@ -14,11 +14,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-import dynamic from "next/dynamic";
+import LuxChat from "../components/LuxChat";
 import Navbar from "../components/Navbar";
-
-// Dynamically import LuxChat to prevent react-syntax-highlighter from blocking the main thread on load
-const LuxChatDynamic = dynamic(() => import("../components/LuxChat"), { ssr: false });
 
 export default function RootLayout({
   children,
@@ -34,7 +31,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         {children}
-        <LuxChatDynamic />
+        <LuxChat />
       </body>
     </html>
   );
