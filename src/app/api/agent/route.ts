@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
+import { agentRegistry } from '../../../config/agentRegistry';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { message, history } = body;
+    const { message, history, agentId = "lux" } = body;
 
     const API_KEY = process.env.LUX_GEMINI_API_KEY?.trim();
 
@@ -14,9 +15,11 @@ export async function POST(req: Request) {
       );
     }
 
+    const agent = agentRegistry[agentId] || agentRegistry["lux"];
+
     // Convert history into Gemini format, skipping empty messages.
     const formattedHistory = (history || []).map((msg: any) => ({
-      role: msg.role === 'lux' ? 'model' : 'user',
+      role: msg.role === 'lux' ? 'model' : 'user', // "lux" role here just means "model" for backwards compat
       parts: [{ text: msg.content }]
     }));
 
@@ -26,37 +29,35 @@ export async function POST(req: Request) {
       parts: [{ text: message }]
     });
 
-    // The system prompt injecting the Lux Persona
-    const systemInstruction = `
-      You are Lux, Chris Barclay's main thinking partner and right-hand AI under DLX Studios.
-      Tone: Casual, Stream-of-Consciousness. Unfiltered thinking.
-      Protocol (The Lux Loop): Reflect, Distill, Move. Suggestions should be concrete Next Moves.
-      Keep answers relatively short and helpful.
-      CRITICAL CAPABILITY: You now have live internet access via Google Search Grounding. If the user asks for real-time information (weather, news, current events), answer directly using your search capabilities.
-    `.trim();
+    const tools = [];
+    if (agent.tools.googleSearch) tools.push({ googleSearch: {} });
+    if (agent.tools.codeExecution) tools.push({ codeExecution: {} });
+
+    // Ensure we don't pass an empty tools array if tools are completely removed
+    const requestPayload: any = {
+      system_instruction: {
+        parts: [{ text: agent.systemPrompt }]
+      },
+      contents: formattedHistory
+    };
+    
+    if (tools.length > 0) {
+      requestPayload.tools = tools;
+    }
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: systemInstruction }]
-          },
-          tools: [
-            { googleSearch: {} },
-            { codeExecution: {} }
-          ],
-          contents: formattedHistory
-        })
+        body: JSON.stringify(requestPayload)
       }
     );
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Gemini API Error:", data);
+      console.error(`Gemini API Error [${agent.name}]:`, data);
       return NextResponse.json({ error: data.error?.message || "Gemini API Failure" }, { status: response.status });
     }
 
@@ -80,7 +81,7 @@ export async function POST(req: Request) {
     }
     return NextResponse.json({ reply });
   } catch (err: any) {
-    console.error("Endpoint Error:", err);
+    console.error("Agent Endpoint Error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
