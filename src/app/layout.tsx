@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 };
 
 import LuxChat from "../components/LuxChat";
+import Navbar from "../components/Navbar";
 
 export default function RootLayout({
   children,
@@ -30,6 +31,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
+        <Navbar />
         {children}
         <LuxChat />
       </body>

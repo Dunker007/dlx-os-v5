@@ -79,27 +79,6 @@ export default function Home() {
 
   return (
     <>
-      <header className="header">
-        <div className="logo">
-          <svg viewBox="0 0 32 32" fill="none" aria-label="DLX Studios">
-            <rect width="32" height="32" rx="8" fill="#00d4aa" fillOpacity="0.15"/>
-            <path d="M8 8h5c5 0 8 3.5 8 8s-3 8-8 8H8V8z" fill="none" stroke="#00d4aa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M20 12l4 4-4 4" stroke="#00d4aa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
-          </svg>
-          <div>
-            <div className="logo-text">DLX Portfolio</div>
-            <div className="logo-sub">Schwab · Charles Schwab</div>
-          </div>
-        </div>
-        <div className="header-right">
-          <div className="live-badge">
-            <div className="live-dot"></div>
-            Live Data
-          </div>
-          <div className="timestamp">Mar 22, 2026 · 08:30 CT</div>
-        </div>
-      </header>
-
       <main className="main">
         <div className="kpi-row">
           <div className="kpi-card teal">
