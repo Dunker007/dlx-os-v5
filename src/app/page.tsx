@@ -1,7 +1,10 @@
 "use client";
 
-import LuxChat from "../components/LuxChat";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+
+// Dynamically import LuxChat to prevent react-syntax-highlighter from breaking the build
+const LuxChat = dynamic(() => import("../components/LuxChat"), { ssr: false });
 
 export default function Desktop() {
   return (
