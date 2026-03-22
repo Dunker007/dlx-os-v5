@@ -17,7 +17,7 @@ export default function Navbar() {
       backdropFilter: "blur(12px)"
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-        <Link href="/mission-control" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
           <svg viewBox="0 0 32 32" fill="none" aria-label="DLX Studios" style={{ width: "28px", height: "28px" }}>
             <rect width="32" height="32" rx="8" fill="#00d4aa" fillOpacity="0.15"/>
             <path d="M8 8h5c5 0 8 3.5 8 8s-3 8-8 8H8V8z" fill="none" stroke="#00d4aa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
