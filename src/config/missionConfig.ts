@@ -27,10 +27,10 @@ export const missionCategories = [
       { name: "Lux", desc: "Main Thinking Partner", path: "#", status: "agent" },
       { name: "Newsician", desc: "Edgy/Political Artist", path: "/artists/newsician", status: "agent" },
       { name: "QPL", desc: "Mellow/Political Artist", path: "/artists/qpl", status: "agent" },
-      { name: "Mic", desc: "Single Studio Producer", path: "#", status: "agent" },
+      { name: "Mic", desc: "Single Studio Producer", path: "/artists/mic", status: "agent" },
       { name: "Mouse's Space", desc: "Creative sandbox", path: "/mouse", status: "creative" },
-      { name: "Schwab Advisor", desc: "Financial planning", path: "#", status: "agent" },
-      { name: "Alto", desc: "Crypto / Alts planning", path: "#", status: "agent" },
+      { name: "Schwab Advisor", desc: "Financial planning", path: "/schwab", status: "agent" },
+      { name: "Alto", desc: "Crypto / Alts planning", path: "/alto", status: "agent" },
     ]
   },
   {
