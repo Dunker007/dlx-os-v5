@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import Image from "next/image";
 
 // Dynamically import LuxChat to prevent react-syntax-highlighter from breaking the build
 const LuxChat = dynamic(() => import("../components/LuxChat"), { ssr: false });
@@ -10,11 +11,17 @@ export default function Desktop() {
   return (
     <div style={{
       height: "100vh", width: "100vw", overflow: "hidden", padding: "40px",
-      backgroundImage: "url('https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&w=2500&auto=format&fit=crop')",
-      backgroundSize: "cover", backgroundPosition: "center",
       display: "flex", gap: "32px",
       position: "fixed", top: 0, left: 0
     }}>
+      <Image
+        src="https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&w=2500&auto=format&fit=crop"
+        alt="Mission Control OS Background"
+        fill
+        priority
+        quality={80}
+        style={{ objectFit: "cover", zIndex: -1 }}
+      />
       {/* Gradient Overlay for legibility */}
       <div style={{
         position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
