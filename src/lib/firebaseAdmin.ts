@@ -14,11 +14,16 @@ if (!admin.apps.length) {
         if (serviceAccountJson.startsWith("'") && serviceAccountJson.endsWith("'")) {
           serviceAccountJson = serviceAccountJson.slice(1, -1);
         }
-        // If the variable contains literal "\n" strings from Netlify, convert them to true newlines
-        serviceAccountJson = serviceAccountJson.replace(/\\n/g, '\n');
+        // Parse the JSON safely first
+        const parsedCredentials = JSON.parse(serviceAccountJson);
+        
+        // If the private_key contains literal string "\n", safely unescape them inside the object
+        if (parsedCredentials.private_key) {
+          parsedCredentials.private_key = parsedCredentials.private_key.replace(/\\n/g, '\n');
+        }
         
         admin.initializeApp({
-          credential: admin.credential.cert(JSON.parse(serviceAccountJson)),
+          credential: admin.credential.cert(parsedCredentials),
         });
         console.log("Firebase Admin SDK Initialized Successfully via Environment Variable.");
         initialized = true;
