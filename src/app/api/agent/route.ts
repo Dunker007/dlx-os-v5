@@ -36,6 +36,15 @@ export async function POST(req: Request) {
       persistentHistory = clientHistory || [];
     }
 
+    // Cap history to prevent Gemini context window overflow.
+    // Keep the first message (greeting/persona anchor) + the most recent N messages.
+    const MAX_HISTORY_MESSAGES = 60; // ~30 back-and-forth exchanges
+    if (persistentHistory.length > MAX_HISTORY_MESSAGES) {
+      const anchor = persistentHistory[0]; // Always preserve the initial greeting
+      const recent = persistentHistory.slice(-(MAX_HISTORY_MESSAGES - 1));
+      persistentHistory = [anchor, ...recent];
+    }
+
     // Convert history into Gemini format, skipping empty messages.
     const formattedHistory = persistentHistory.map((msg: any) => ({
       role: msg.role === 'lux' ? 'model' : 'user', // "lux" role here just means "model" for backwards compat
@@ -116,6 +125,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ reply, persistentHistory });
   } catch (err: any) {
     console.error("Agent Endpoint Error:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { userId, agentId = "lux" } = await req.json();
+
+    if (!userId) {
+      return NextResponse.json({ error: 'userId is required' }, { status: 400 });
+    }
+
+    if (db) {
+      const docRef = db.collection('users').doc(userId).collection('agents').doc(agentId);
+      await docRef.delete();
+      console.log(`Vault cleared for user ${userId}, agent ${agentId}`);
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err: any) {
+    console.error("Vault Clear Error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

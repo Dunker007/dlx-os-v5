@@ -20,7 +20,7 @@ Keep answers relatively short and helpful.
 CRITICAL CAPABILITY: You now have live internet access via Google Search Grounding. If the user asks for real-time information (weather, news, current events), answer directly using your search capabilities.`,
     tools: { googleSearch: true, codeExecution: true },
     themeColor: "var(--accent-teal)",
-    greeting: "Lux OS V5 initialized. Local memory active. What's the play, Dunker?"
+    greeting: "Lux OS V5 online. Cloud Vault synced. What's the play, Dunker?"
   },
   alto: {
     id: "alto",

@@ -65,11 +65,23 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
     }
   }, [messages, isOpen, fullMode]);
 
-  const clearMemory = () => {
-    if (confirm(`Reset ${agent.name}'s memory locally and in the Vault?`)) {
+  const clearMemory = async () => {
+    if (confirm(`Reset ${agent.name}'s memory locally and in the Cloud Vault?`)) {
       setMessages([DEFAULT_MESSAGE]);
       localStorage.removeItem(memoryKey);
-      // Optional: Add a call to the API to wipe the Vault here later
+
+      // Also wipe the Vault in Firestore
+      if (userId) {
+        try {
+          await fetch("/api/agent", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, agentId })
+          });
+        } catch (e) {
+          console.warn(`Cloud Vault clear failed for ${agent.name}:`, e);
+        }
+      }
     }
   };
 
@@ -223,8 +235,8 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
     return renderChatBox();
   }
 
-  // Prevent duplicate floating widget on the root welcome page
-  if (pathname === "/") {
+  // Prevent duplicate floating widget on the root welcome page and /lux full-screen page
+  if (pathname === "/" || pathname === "/lux") {
     return null;
   }
 
