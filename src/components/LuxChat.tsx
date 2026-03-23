@@ -24,9 +24,21 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
   const [isMounted, setIsMounted] = useState(false);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
+  // Automatically generate or fetch a durable User ID for this browser
+  const [userId, setUserId] = useState<string | null>(null);
+
   // Hydrate exact agent memory from Local Storage
   useEffect(() => {
     setIsMounted(true);
+    
+    // Initialize or load Unique User ID
+    let currentUserId = localStorage.getItem("dlx_user_id");
+    if (!currentUserId) {
+      currentUserId = "user_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now();
+      localStorage.setItem("dlx_user_id", currentUserId);
+    }
+    setUserId(currentUserId);
+
     const saved = localStorage.getItem(memoryKey);
     if (saved) {
       try {
@@ -37,7 +49,7 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
     }
   }, [memoryKey, agent.name]);
 
-  // Save exact agent memory
+  // Save exact agent memory locally as a fallback
   useEffect(() => {
     if (isMounted) {
       localStorage.setItem(memoryKey, JSON.stringify(messages));
@@ -54,9 +66,10 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
   }, [messages, isOpen, fullMode]);
 
   const clearMemory = () => {
-    if (confirm(`Reset ${agent.name}'s memory?`)) {
+    if (confirm(`Reset ${agent.name}'s memory locally and in the Vault?`)) {
       setMessages([DEFAULT_MESSAGE]);
       localStorage.removeItem(memoryKey);
+      // Optional: Add a call to the API to wipe the Vault here later
     }
   };
 
@@ -64,10 +77,7 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
     if (!input.trim()) return;
     
     const userMsg = input.trim();
-    setMessages(prev => {
-      const newHistory = [...prev, { role: "user" as const, content: userMsg }];
-      return newHistory;
-    });
+    setMessages(prev => [...prev, { role: "user" as const, content: userMsg }]);
     
     setInput("");
     setIsLoading(true);
@@ -79,7 +89,7 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
       const res = await fetch("/api/agent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg, history: currentHistory, agentId })
+        body: JSON.stringify({ message: userMsg, history: currentHistory, agentId, userId })
       });
       
       const data = await res.json();
@@ -87,7 +97,13 @@ export default function AgentChat({ fullMode = false, agentId = "lux" }: { fullM
       if (data.error) {
         setMessages(prev => [...prev, { role: "lux" as const, content: `System Error: ${data.error}` }]);
       } else {
-        setMessages(prev => [...prev, { role: "lux" as const, content: data.reply }]);
+        // Relying on the Universal Truth returned from the Vault!
+        if (data.persistentHistory) {
+          setMessages(data.persistentHistory);
+        } else {
+          // Fallback if no persistent history was returned
+          setMessages(prev => [...prev, { role: "lux" as const, content: data.reply }]);
+        }
       }
     } catch (err: any) {
       setMessages(prev => [...prev, { role: "lux" as const, content: "Connection severed. Check network or API key." }]);

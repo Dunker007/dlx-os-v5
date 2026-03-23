@@ -4,7 +4,18 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 
 // Dynamically import LuxChat to prevent react-syntax-highlighter from breaking the build
-const LuxChat = dynamic(() => import("../components/LuxChat"), { ssr: false });
+const LuxChat = dynamic(() => import("../components/LuxChat"), { 
+  ssr: false,
+  loading: () => (
+    <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(15, 23, 42, 0.4)", backdropFilter: "blur(16px)", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
+      <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ width: "16px", height: "16px", borderRadius: "50%", border: "2px solid rgba(255,255,255,0.1)", borderTopColor: "var(--accent-teal)", animation: "spin 1s linear infinite" }} />
+        Initializing LuxOS Core...
+      </div>
+      <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+    </div>
+  )
+});
 
 export default function Desktop() {
   return (
